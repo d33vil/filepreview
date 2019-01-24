@@ -6,6 +6,7 @@
     "babel-preset-env": "^1.7.0",
     "download-file": "^0.1.5",
     "express": "^4.16.4",
+    "multer": "^1.4.1",
     "prettier": "^1.16.1",
     "tracer": "^0.9.8"
   },
