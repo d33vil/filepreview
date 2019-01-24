@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "build": "babel lib -d dist"
+  },
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "download-file": "^0.1.5",
+    "express": "^4.16.4",
+    "prettier": "^1.16.1",
+    "tracer": "^0.9.8"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "jsxBracketSameLine": true,
+    "arrowParens": "always",
+    "printWidth": 120
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  }
+}
