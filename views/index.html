@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>File Preview</title>
+  </head>
+  <body>
+    <div id="root" />
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel" data-presets="react,stage-0">
+      class Preview extends Component {
+        state = {
+          inputKey: 1
+        };
+
+        inputChange = (e) => {
+          let formData = new FormData();
+          formData.append('file', file);
+          //formData.append('fileType', fileType);
+          /*if (filename) {
+            formData.append('filename', filename);
+          }*/
+          fetch('/generate', {
+            method:'POST',
+            body: FormData
+          })
+            .then((resp) => {
+              console.log(resp);
+              this.setState({
+                inputKey: this.state.inputKey + 1
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+              this.setState({
+                inputKey: this.state.inputKey + 1
+              });
+            })
+        };
+
+        render() {
+          const { preview, inputKey } = this.state;
+          return (
+            <div>
+              <input key={'input_' + inputKey} type="file" onChange={this.inputChange} />
+              {preview && <img src={preview} />}
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<Preview />, document.getElementById('root'));
+    </script>
+  </body>
+</html>
