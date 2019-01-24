@@ -43,7 +43,7 @@
         render() {
           const { preview, inputKey } = this.state;
           return (
-            <div>
+            <div style={{margin:'10px', display:'flex'}}>
               <input key={'input_' + inputKey} type="file" onChange={this.inputChange} />
               {preview && <img src={preview} />}
             </div>
