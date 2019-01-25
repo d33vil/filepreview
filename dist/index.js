@@ -34,10 +34,13 @@ global.error = _tracer2.default.console().error;
 
 var app = (0, _express2.default)();
 
-app.post('/preview', upload.any(), function (req, res, next) {
-  log('here');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+
+app.post('/generate', upload.any(), function (req, res, next) {
   var file = (req.files || [])[0];
   if (file) {
+    log(file);
     _filepreview2.default.generate(file.path, '/tmp/preview.png', function (err) {
       if (err) {
         log(err);
@@ -63,7 +66,10 @@ app.get('/test', function (req, res, next) {
     }
   });
 });
+app.get('/*', function (req, res) {
+  log('here');
+  res.render('index');
+});
 
 var server = app.listen(3010);
 log('filepreview server bound to port 3010');
-/**/
