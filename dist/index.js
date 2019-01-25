@@ -60,7 +60,7 @@ app.post('/generate', upload.any(), function (req, res, next) {
   if (file) {
     log(file);
     var p = _path2.default.parse(file.path);
-    var preview = file.dir + '/' + file.name + '.png';
+    var preview = p.dir + '/' + p.name + '.png';
     _filepreview2.default.generate(file.path, preview, function (err) {
       if (err) {
         log(err);
