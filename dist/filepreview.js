@@ -127,7 +127,7 @@ module.exports = {
 
           var tempPDF = _path2.default.join(_os2.default.tmpdir(), _hash + '.pdf');
 
-          _child_process2.default.execFile('unoconv', ['-e', 'PageRange=1-2', '-o', tempPDF, input], function (error) {
+          _child_process2.default.execFile('unoconv', ['-e', 'PageRange=1', '-o', tempPDF, input], function (error) {
             if (error) return callback(error);
             var convertOtherArgs = [tempPDF + '[0]', output];
             if (options.width > 0 && options.height > 0) {
