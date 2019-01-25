@@ -24,6 +24,10 @@ var _mime = require('mime');
 
 var _mime2 = _interopRequireDefault(_mime);
 
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var storage = _multer2.default.diskStorage({
@@ -55,13 +59,15 @@ app.post('/generate', upload.any(), function (req, res, next) {
   var file = (req.files || [])[0];
   if (file) {
     log(file);
-    _filepreview2.default.generate(file.path, '/tmp/preview.png', function (err) {
+    var p = _path2.default.parse(file.path);
+    var preview = file.dir + '/' + file.name + '.png';
+    _filepreview2.default.generate(file.path, preview, function (err) {
       if (err) {
         log(err);
         res.status(500);
         res.json({ error: err });
       } else {
-        res.sendFile('/tmp/preview.png');
+        res.sendFile(preview);
       }
     });
   } else {
