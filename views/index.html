@@ -48,12 +48,12 @@
         };
 
         render() {
-          const { preview, inputKey } = this.state;
+          const { src, inputKey } = this.state;
           return (
             <div style={{ margin: '10px' }}>
               <h2>Preview File</h2>
               <input key={'input_' + inputKey} type="file" onChange={this.inputChange} />
-              {preview && <img src={preview} />}
+              {preview && <img src={src} />}
             </div>
           );
         }
