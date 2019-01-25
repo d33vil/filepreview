@@ -32,7 +32,7 @@
                 if(!response.ok) throw new Error(response.status);
                 else return response.blob();
               })
-              .then((myBlobl) => {
+              .then((myBlob) => {
                 this.setState({
                   inputKey: this.state.inputKey + 1,
                   src: URL.createObjectURL(myBlob)
