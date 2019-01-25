@@ -28,11 +28,15 @@
               method: 'POST',
               body: formData
             })
-              .then((resp) => {
-                console.log(resp);
+              .then((response) => {
+                if(!response.ok) throw new Error(response.status);
+                else return response.blob();
+              })
+              .then((myBlobl) => {
                 this.setState({
-                  inputKey: this.state.inputKey + 1
-                });
+                  inputKey: this.state.inputKey + 1,
+                  src: URL.createObjectURL(myBlob)
+              });
               })
               .catch((err) => {
                 console.log(err);
