@@ -16,9 +16,23 @@ var _multer = require('multer');
 
 var _multer2 = _interopRequireDefault(_multer);
 
+var _crypto = require('crypto');
+
+var _crypto2 = _interopRequireDefault(_crypto);
+
+var _mime = require('mime');
+
+var _mime2 = _interopRequireDefault(_mime);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var storage = _multer2.default.diskStorage({});
+var storage = _multer2.default.diskStorage({
+  filename: function filename(req, file, cb) {
+    _crypto2.default.pseudoRandomBytes(16, function (err, raw) {
+      cb(null, raw.toString('hex') + Date.now() + '.' + _mime2.default.getExtension(file.mimetype));
+    });
+  }
+});
 (0, _multer2.default)({});
 var upload = (0, _multer2.default)({
   storage: storage,

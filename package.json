@@ -8,6 +8,7 @@
     "download-file": "^0.1.5",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "mime": "^2.4.0",
     "multer": "^1.4.1",
     "prettier": "^1.16.1",
     "tracer": "^0.9.8"
