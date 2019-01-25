@@ -67,8 +67,7 @@ app.get('/test', function (req, res, next) {
   });
 });
 app.get('/*', function (req, res) {
-  log('here');
-  res.render('index');
+  res.render('index.html');
 });
 
 var server = app.listen(3010);
