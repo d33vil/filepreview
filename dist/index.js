@@ -38,7 +38,7 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 
 app.post('/generate', upload.any(), function (req, res, next) {
-  var file = (req.files || [])[0];
+  var file = (req.files || [])[0] || req.file;
   if (file) {
     log(file);
     _filepreview2.default.generate(file.path, '/tmp/preview.png', function (err) {
@@ -51,6 +51,7 @@ app.post('/generate', upload.any(), function (req, res, next) {
       }
     });
   } else {
+    log('no file specified');
     res.status(500);
     res.json({ error: 'No File' });
   }
