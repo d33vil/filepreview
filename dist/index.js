@@ -40,8 +40,8 @@ var storage = _multer2.default.diskStorage({
 (0, _multer2.default)({});
 var upload = (0, _multer2.default)({
   storage: storage,
-  limits: { fieldSize: 25 * 1024 * 1024 }
-});
+  limits: { fieldSize: 500 * 1024 * 1024 //500MB
+  } });
 
 global.log = _tracer2.default.console().log;
 global.info = _tracer2.default.console().info;
@@ -71,7 +71,7 @@ app.post('/generate', upload.any(), function (req, res, next) {
       }
     });
   } else {
-    log('no file specified');
+    log('no file specified', req);
     res.status(500);
     res.json({ error: 'No File' });
   }
