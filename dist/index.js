@@ -16,9 +16,27 @@ var _multer = require('multer');
 
 var _multer2 = _interopRequireDefault(_multer);
 
+var _crypto = require('crypto');
+
+var _crypto2 = _interopRequireDefault(_crypto);
+
+var _mime = require('mime');
+
+var _mime2 = _interopRequireDefault(_mime);
+
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var storage = _multer2.default.diskStorage({});
+var storage = _multer2.default.diskStorage({
+  filename: function filename(req, file, cb) {
+    _crypto2.default.pseudoRandomBytes(16, function (err, raw) {
+      cb(null, raw.toString('hex') + Date.now() + '.' + _mime2.default.getExtension(file.mimetype));
+    });
+  }
+});
 (0, _multer2.default)({});
 var upload = (0, _multer2.default)({
   storage: storage,
@@ -40,14 +58,16 @@ app.set('view engine', 'ejs');
 app.post('/generate', upload.any(), function (req, res, next) {
   var file = (req.files || [])[0] || req.file;
   if (file) {
-    log(file);
-    _filepreview2.default.generate(file.path, '/tmp/preview.png', function (err) {
+    var p = _path2.default.parse(file.path);
+    var preview = p.dir + '/' + p.name + '.png';
+    _filepreview2.default.generate(file.path, preview, function (err) {
       if (err) {
-        log(err);
+        log(file, err);
         res.status(500);
         res.json({ error: err });
       } else {
-        res.sendFile('/tmp/preview.png');
+        log(file, preview);
+        res.sendFile(preview);
       }
     });
   } else {
@@ -68,8 +88,7 @@ app.get('/test', function (req, res, next) {
   });
 });
 app.get('/*', function (req, res) {
-  log('here');
-  res.render('index');
+  res.render('index.html');
 });
 
 var server = app.listen(3010);

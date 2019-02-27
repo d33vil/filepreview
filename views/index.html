@@ -10,42 +10,50 @@
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <script type="text/babel" data-presets="react,stage-0">
-      class Preview extends Component {
+      class Preview extends React.Component {
         state = {
           inputKey: 1
         };
 
         inputChange = (e) => {
-          let formData = new FormData();
-          formData.append('file', file);
-          //formData.append('fileType', fileType);
-          /*if (filename) {
+          let file = (e.target.files || [])[0];
+          if (file) {
+            let formData = new FormData();
+            formData.append('file', file);
+            //formData.append('fileType', fileType);
+            /*if (filename) {
             formData.append('filename', filename);
           }*/
-          fetch('/generate', {
-            method:'POST',
-            body: formData
-          })
-            .then((resp) => {
-              console.log(resp);
-              this.setState({
-                inputKey: this.state.inputKey + 1
-              });
+            fetch('/generate', {
+              method: 'POST',
+              body: formData
             })
-            .catch((err) => {
-              console.log(err);
-              this.setState({
-                inputKey: this.state.inputKey + 1
+              .then((response) => {
+                if(!response.ok) throw new Error(response.status);
+                else return response.blob();
+              })
+              .then((myBlob) => {
+                this.setState({
+                  inputKey: this.state.inputKey + 1,
+                  src: URL.createObjectURL(myBlob)
               });
-            })
+              })
+              .catch((err) => {
+                console.log(err);
+                this.setState({
+                  inputKey: this.state.inputKey + 1
+                });
+              });
+          }
         };
 
         render() {
-          const { preview, inputKey } = this.state;
+          const { src, inputKey } = this.state;
           return (
-            <div style={{margin:'10px', display:'flex'}}>
+            <div style={{ margin: '10px', display:'flex', flexDirection:'column', alignItems:'flex-start' }}>
+              <h2>Preview File</h2>
               <input key={'input_' + inputKey} type="file" onChange={this.inputChange} />
-              {preview && <img src={preview} />}
+              {src && <img src={src} />}
             </div>
           );
         }
