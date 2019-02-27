@@ -71,7 +71,7 @@ app.post('/generate', upload.any(), function (req, res, next) {
       }
     });
   } else {
-    log('no file specified', req);
+    log('no file specified');
     res.status(500);
     res.json({ error: 'No File' });
   }
